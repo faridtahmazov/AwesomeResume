@@ -25,7 +25,7 @@ public class EmpDaoClass extends ConnectToMysql implements EmpDaoInter {
     }
 
     @Override
-    public List<EmployedHistory> getAllEmployedHistoryByUserId(int userId) {
+    public List<EmployedHistory> getAllEmployedHistoryByUserId(User loggedInUser) {
         List<EmployedHistory> result = new ArrayList<>();
 
         try (Connection c = connect()){
@@ -35,7 +35,7 @@ public class EmpDaoClass extends ConnectToMysql implements EmpDaoInter {
                     "employed_history  " +
                     "WHERE " +
                     "user_id = ?");
-            preparedStatement.setInt(1, userId);
+            preparedStatement.setInt(1, loggedInUser.getId());
             preparedStatement.execute();
 
             ResultSet resultSet = preparedStatement.getResultSet();
@@ -50,4 +50,24 @@ public class EmpDaoClass extends ConnectToMysql implements EmpDaoInter {
         }
         return result;
     }
+
+    @Override
+    public boolean updateEmployedHistory(EmployedHistory emp) {
+        try (Connection c = connect()){
+            PreparedStatement preparedStatement = c.prepareStatement("UPDATE employed_history set header = ?, "
+                    + "job_description = ?, begin_date = ?, end_date = ? WHERE user_id = ?");
+            preparedStatement.setString(1, emp.getHeader());
+            preparedStatement.setString(2, emp.getJobDescription());
+            preparedStatement.setDate(3, emp.getBeginDate());
+            preparedStatement.setDate(4, emp.getEndDate());
+            preparedStatement.setInt(5, emp.getUser().getId());
+    
+            return preparedStatement.execute();
+        }catch(Exception ex){
+            ex.printStackTrace();
+            return false;
+        }
+    }
+
+   
 }

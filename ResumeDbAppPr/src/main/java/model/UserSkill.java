@@ -49,8 +49,8 @@ public class UserSkill {
 
     @Override
     public String toString() {
-        return "" + user +
-                 skill +
-                "\nPower: " + power + "\n";
+        return "UserSkill{" + "id=" + id + ", user=" + user + ", skill=" + skill + ", power=" + power + '}';
     }
+
+    
 }

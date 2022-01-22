@@ -17,14 +17,19 @@ public class UserDaoClass extends ConnectToMysql implements UserDaoInter {
         String surname = resultSet.getString("surname");
         String email = resultSet.getString("email");
         String phone = resultSet.getString("phone");
+        String profDesc = resultSet.getString("profile_description");
+        String address = resultSet.getString("address");
         Date birthDate = resultSet.getDate("birth_date");
         int nationalityId = resultSet.getInt("nationality_id");
+        int countryId = resultSet.getInt("country_id");
 
-        String country = resultSet.getString("country");
+        String countryStr = resultSet.getString("country");
         String nationalityStr = resultSet.getString("nationality");
-        Country nationality = new Country(nationalityId, country, nationalityStr);
+        
+        Country nationality = new Country(nationalityId, null, nationalityStr);
+        Country country = new Country(countryId, countryStr, null);
 
-        return new User(id, name, surname, email, phone, birthDate, nationality);
+        return new User(id, name, surname, email, phone, profDesc, address, birthDate, country, nationality);
     }
 
     @Override
@@ -33,8 +38,8 @@ public class UserDaoClass extends ConnectToMysql implements UserDaoInter {
         try(Connection c = connect()){
             Statement statement = c.createStatement();
             statement.execute("SELECT " +
-                    "u.id, u.name, u.surname, u.email, u.phone, u.profile_description, u.address, u.birth_date, u.nationality_id, " +
-                    "n.country, n.nationality, " +
+                    "u.id, u.name, u.surname, u.email, u.phone, u.profile_description, u.address, u.birth_date, country_id, u.nationality_id, " +
+                    "c.country, n.nationality, " +
                     "emp.header, emp.begin_date, emp.end_date, emp.job_description, " +
                     "s.skill_name, " +
                     "us.power  " +
@@ -43,6 +48,7 @@ public class UserDaoClass extends ConnectToMysql implements UserDaoInter {
                     "LEFT JOIN USER u ON us.user_id = u.id " +
                     "LEFT JOIN employed_history emp ON u.id = emp.user_id " +
                     "LEFT JOIN country n ON u.nationality_id = n.id " +
+                    "LEFT JOIN country c on u.country_id = c.id " +
                     "LEFT JOIN skill s ON us.skill_id = s.id;");
 
             ResultSet resultSet = statement.getResultSet();
@@ -61,47 +67,57 @@ public class UserDaoClass extends ConnectToMysql implements UserDaoInter {
 
 
     @Override
-    public List<User> getById(int id){
-        List<User> list = new ArrayList<>();
+    public User getById(int id){
+        User result = null;
         try(Connection c = connect()){
             PreparedStatement preparedStatement = c.prepareStatement("SELECT " +
-                    "u.*, " +
-                    "s.*, " +
-                    "n.*, " +
-                    "emp.*, " +
-                    "us.* " +
-                    "FROM user_skill us " +
-                    "Left JOIN user u on us.user_id = u.user_id " +
-                    "Left Join employed_histroy emp on u.employed_id = emp.id " +
-                    "LEFT JOIN country n on u.nationality_id = n.id " +
-                    "left JOIN skill s on us.skill_id = s.id " +
-                    "Where u.id = ?;");
+"	u.*, " +
+"	n.nationality, " +
+"       c.country, " +
+"	emp.*, " +
+"	s.*, " +
+"	us.*  " +
+"FROM " +
+"	user_skill us " +
+"	LEFT JOIN USER u ON us.user_id = u.id " +
+"	LEFT JOIN employed_history emp ON u.id = emp.user_id " +
+"	LEFT JOIN country n ON u.nationality_id = n.id " +
+"       LEFT JOIN country c on u.country_id = c.id " +
+"	LEFT JOIN skill s ON us.skill_id = s.id "
+                    + "Where u.id = ?;");
             preparedStatement.setInt(1, id);
             preparedStatement.execute();
 
             ResultSet resultSet = preparedStatement.getResultSet();
             while (resultSet.next()){
-                User u = getUser(resultSet);
-                list.add(u);
+                result = getUser(resultSet);
             }
-
 
         }catch (Exception ex){
             ex.printStackTrace();
         }
 
-        return list;
+        return result;
     }
 
     @Override
-    public boolean update(String field, int id, String set) {
+    public boolean update(User u) {
         try(Connection c = connect()){
             PreparedStatement preparedStatement = c.prepareStatement("UPDATE user " +
-                    "SET " + field + " = ? " +
+                    "SET name=?, surname=?, email=?, phone=?, profile_description=?, "
+                    + "address = ?, birth_date=?, country_id=? ,nationality_id=? " +
                     "WHERE id = ?;");
-            preparedStatement.setString(1, set);
-            preparedStatement.setInt(2, id);
-
+            preparedStatement.setString(1, u.getName());
+            preparedStatement.setString(2, u.getSurname());
+            preparedStatement.setString(3, u.getEmail());
+            preparedStatement.setString(4, u.getPhone());
+            preparedStatement.setString(5, u.getProfileDescription());
+            preparedStatement.setString(6, u.getAddress());
+            preparedStatement.setDate(7, u.getBirthdate());
+            preparedStatement.setInt(8, u.getCountry().getId());
+            preparedStatement.setInt(9, u.getNationality().getId());
+            preparedStatement.setInt(10, u.getId());
+                
             return preparedStatement.execute();
         }catch (Exception ex){
             ex.printStackTrace();
