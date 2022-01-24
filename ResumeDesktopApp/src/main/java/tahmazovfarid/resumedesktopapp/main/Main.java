@@ -155,6 +155,7 @@ public class Main extends javax.swing.JFrame {
         udi.update(loggedIn);
         
         JOptionPane.showMessageDialog(null, "Updated successful!");
+        //The end :)
     }//GEN-LAST:event_saveBtnActionPerformed
 
     public static void main(String args[]) {

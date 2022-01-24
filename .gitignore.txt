@@ -1,0 +1,2 @@
+D:\github projects\AwesomeResume\ResumeDbAppPr\target
+D:\github projects\AwesomeResume\ResumeDesktopApp\target
