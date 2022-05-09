@@ -14,7 +14,7 @@ public class Config {
     public static UserDaoInter userDaoInter = Context.getInstanceUserDao();
     public static SkillDaoInter skillDaoInter = Context.getInstanceSkillDao();
     public static UserSkillDaoInter userSkillDaoInter = Context.getInstanceUserSkillDao();
-    public static User loggedInUser = userDaoInter.getById(1);
+    public static User loggedInUser = userDaoInter.getById(3);
     public static EmpDaoInter empDaoInter = Context.getInstanceEmployedHistoryDao();
     
 //    public static List<UserSkill> loggedInUserSkill = userSkillDaoInter.getAllSkillByUserId(loggedInUser.getId());

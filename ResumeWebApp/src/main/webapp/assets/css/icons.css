@@ -1,0 +1,9 @@
+.icon{
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.icon:hover{
+    background: azure;
+}
