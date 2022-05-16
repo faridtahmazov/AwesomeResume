@@ -17,19 +17,19 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
 
     @Override
     public Boolean saveUser(User user) {
-        try {
+//        try {
 //            this.transaction.begin();
             this.entityManager.persist(user);
 //            this.transaction.commit();
-        }catch (RuntimeException e){
-            System.out.println("Error: " + e);
-            try {
-//                this.transaction.rollback();
-            }catch (RollbackException e2){
-                System.out.println("Error: " + e2);
-            }
-            return false;
-        }
+//        }catch (RuntimeException e){
+//            System.out.println("Error: " + e);
+//            try {
+////                this.transaction.rollback();
+//            }catch (RollbackException e2){
+//                System.out.println("Error: " + e2);
+//            }
+//            return false;
+//        }
         return true;
     }
 

@@ -18,19 +18,19 @@ public class EmployedHistoryRepositoryImpl implements EmployedHistoryRepositoryI
 
     @Override
     public Boolean saveEmpHistory(EmployedHistory empHistory) {
-        try{
+//        try{
             //           this.transaction.begin();
             this.entityManager.persist(empHistory);
             //          this.transaction.commit();
-        }catch (RuntimeException e){
-            System.out.println("Error: ");
-            try {
-                //            transaction.rollback();
-            }catch (RollbackException e2){
-                System.out.println("Error: " + e2);
-            }
-            return false;
-        }
+//        }catch (RuntimeException e){
+//            System.out.println("Error: ");
+//            try {
+//                //            transaction.rollback();
+//            }catch (RollbackException e2){
+//                System.out.println("Error: " + e2);
+//            }
+//            return false;
+//        }
         return true;
     }
 

@@ -17,19 +17,19 @@ public class SkillRepositoryImpl implements SkillRepositoryInter {
 
     @Override
     public Boolean saveSkill(Skill skill) {
-        try{
+//        try{
             //         this.transaction.begin();
             this.entityManager.persist(skill);
             //        this.transaction.commit();
-        }catch (RuntimeException e){
-            System.out.println("Error: ");
-            try {
-                //            transaction.rollback();
-            }catch (RollbackException e2){
-                System.out.println("Error: " + e2);
-            }
-            return false;
-        }
+//        }catch (RuntimeException e){
+//            System.out.println("Error: ");
+//            try {
+//                //            transaction.rollback();
+//            }catch (RollbackException e2){
+//                System.out.println("Error: " + e2);
+//            }
+//            return false;
+//        }
         return true;
     }
 

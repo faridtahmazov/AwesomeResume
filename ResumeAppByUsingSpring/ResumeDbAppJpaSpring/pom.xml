@@ -3,10 +3,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.6.7</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <groupId>resume.multimodule</groupId>
+        <artifactId>resume.multimodule</artifactId>
+        <version>0.0.1</version>
+<!--        <relativePath/> &lt;!&ndash; lookup parent from repository &ndash;&gt;-->
     </parent>
     <groupId>com.example</groupId>
     <artifactId>ResumeWithSpring</artifactId>
@@ -15,30 +15,9 @@
     <description>ResumeWithSpring</description>
     <properties>
         <java.version>11</java.version>
+        <spring.boot.repackage.skip>true</spring.boot.repackage.skip>
     </properties>
     <dependencies>
-
-<!--        -->
-<!--        <dependency>-->
-<!--            <groupId>org.junit.jupiter</groupId>-->
-<!--            <artifactId>junit-jupiter-api</artifactId>-->
-<!--            <version>5.8.1</version>-->
-<!--            <scope>test</scope>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.seleniumhq.selenium</groupId>-->
-<!--            <artifactId>selenium-java</artifactId>-->
-<!--            <version>3.141.59</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>junit</groupId>-->
-<!--            <artifactId>junit</artifactId>-->
-<!--            <version>4.12</version>-->
-<!--            <scope>test</scope>-->
-<!--        </dependency>-->
-<!--        -->
-
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -64,7 +43,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.25</version>
+            <version>8.0.28</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -89,13 +68,5 @@
         </dependency>
     </dependencies>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>
