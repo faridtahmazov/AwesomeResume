@@ -1,9 +1,6 @@
 package com.company;
 
-import com.company.model.Country;
-import com.company.model.EmployedHistory;
-import com.company.model.Skill;
-import com.company.model.User;
+import com.company.model.*;
 import com.company.service.serviceInter.EmployedHistoryServiceInter;
 import com.company.service.serviceInter.SkillServiceInter;
 import com.company.service.serviceInter.UserServiceInter;
@@ -46,7 +43,6 @@ public class ResumeDbAppJpaSpringApplication {
 
 			@Override
 			public void run(String... args) throws Exception {
-				getAllData();
 			}
 		};
 
@@ -57,11 +53,15 @@ public class ResumeDbAppJpaSpringApplication {
 		Country country = new Country("Azerbaijan", "Azerbaijani");
 		User user = new User("Farid", "Tahmazov", "tahmazovfarid7@gmail.com",
 				"055-977-32-37", "Hii", "Baku", new Date());
+		LoginUser loginUser = new LoginUser("tahmazovfarid", "1234");
+		user.setLoginUsers(loginUser);
 		Skill skill = new Skill("Java");
 
-		User user2 = new User("Ruslan", "Guliyev", "ruslanguliyev@gmail.com",
+		User user2 = new User("Beyim", "Mehreliyeva", "ruslanguliyev@gmail.com",
 				"055-555-55-55", "Hii", "Ganja", new Date());
 
+		LoginUser loginUser2 = new LoginUser("mehbeyim", "0000");
+		user2.setLoginUsers(loginUser2);
 		Skill skill2 = new Skill("Php");
 
 		EmployedHistory employedHistory = new EmployedHistory("Java Software Developer", new Date(),
@@ -70,14 +70,20 @@ public class ResumeDbAppJpaSpringApplication {
 		EmployedHistory employedHistory2 = new EmployedHistory("Php Software Developer", new Date(),
 				new Date(), "Hah!");
 
-		user.setCountry(country);
+		List<Country> countries = new ArrayList<>();
+		countries.add(country);
+
+		user.setCountry(countries);
 		employedHistory.setUser(user);
 
 		List<Skill> skills = new ArrayList<>();
 		skills.add(skill);
 		user.setSkills(skills);
 
-		user2.setCountry(country);
+		List<Country> countries2 = new ArrayList<>();
+		countries2.add(country);
+
+		user2.setCountry(countries2);
 		employedHistory2.setUser(user2);
 
 		List<Skill> skills2 = new ArrayList<>();

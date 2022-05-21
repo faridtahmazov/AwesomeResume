@@ -37,14 +37,27 @@ public class User implements Serializable {
     @Column(name = "birthdate")
     private Date birthdate = new Date();
 
+    @CollectionTable(name = "login_user", joinColumns = @JoinColumn(name = "user_id"))
+    @AttributeOverrides({
+            @AttributeOverride(name = "username", column = @Column(name = "username")),
+            @AttributeOverride(name = "password", column = @Column(name = "password"))
+    })
+    @Embedded
+    @Column(name = "login_user")
+    private LoginUser loginUsers;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_skill", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "skillId"))
     private List<Skill> skills = new ArrayList<>();
 
-    @CollectionTable(name = "country", joinColumns = @JoinColumn(name = "user_id"))
-    @Embedded
-    private Country country;
+    @ElementCollection
+    @CollectionTable(name = "user_country", joinColumns = @JoinColumn(name = "user_id"))
+    @AttributeOverrides({
+            @AttributeOverride(name = "country", column = @Column(name = "country")),
+            @AttributeOverride(name = "nationality", column = @Column(name = "nationality"))
+    })
+    private List<Country> countries = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
     private List<EmployedHistory> employedHistories;
@@ -70,16 +83,26 @@ public class User implements Serializable {
         this.birthdate = birthdate;
     }
 
-    public Country getCountry() {
-        return country;
+
+
+    public List<Country> getCountry() {
+        return countries;
     }
 
-    public void setCountry(Country country) {
-        this.country = country;
+    public void setCountry(List<Country> country) {
+        this.countries = country;
     }
 
     public List<EmployedHistory> getEmployedHistories() {
         return employedHistories;
+    }
+
+    public LoginUser getLoginUsers() {
+        return loginUsers;
+    }
+
+    public void setLoginUsers(LoginUser loginUsers) {
+        this.loginUsers = loginUsers;
     }
 
     public void setEmployedHistories(List<EmployedHistory> employedHistories) {
@@ -157,22 +180,6 @@ public class User implements Serializable {
     public void setBirthdate(Date birthdate) {
         this.birthdate = birthdate;
     }
-
-//    public Country getCountry() {
-//        return country;
-//    }
-
-//    public void setCountry(Country country) {
-//        this.country = country;
-//    }
-
-//    public Country getNationality() {
-//        return nationality;
-//    }
-//
-//    public void setNationality(Country nationality) {
-//        this.nationality = nationality;
-//    }
 
     @Override
     public String toString() {

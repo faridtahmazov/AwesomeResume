@@ -1,6 +1,6 @@
 package com.company.model;
 
-import javax.persistence.*;
+import javax.persistence.Embeddable;
 
 @Embeddable
 public class Country {

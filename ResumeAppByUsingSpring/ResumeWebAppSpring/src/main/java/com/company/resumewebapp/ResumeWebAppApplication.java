@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication(scanBasePackages={"com.company.service"})
+@SpringBootApplication(scanBasePackages={"com.company", "com.company.resumewebapp"})
 public class ResumeWebAppApplication {
 
 	public static void main(String[] args) {

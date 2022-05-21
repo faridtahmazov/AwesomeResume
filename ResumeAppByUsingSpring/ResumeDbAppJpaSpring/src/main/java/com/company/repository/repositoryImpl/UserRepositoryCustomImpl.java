@@ -1,9 +1,11 @@
 package com.company.repository.repositoryImpl;
 
+import com.company.model.LoginUser;
 import com.company.model.Skill;
 import com.company.model.User;
 import com.company.queries.UserQuery;
 import com.company.repository.repositoryInter.UserRepositoryCustom;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;
@@ -15,21 +17,14 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
     @PersistenceContext
     private EntityManager entityManager;
 
+    private static BCryptPasswordEncoder crypt = new BCryptPasswordEncoder();
+
     @Override
     public Boolean saveUser(User user) {
-//        try {
-//            this.transaction.begin();
-            this.entityManager.persist(user);
-//            this.transaction.commit();
-//        }catch (RuntimeException e){
-//            System.out.println("Error: " + e);
-//            try {
-////                this.transaction.rollback();
-//            }catch (RollbackException e2){
-//                System.out.println("Error: " + e2);
-//            }
-//            return false;
-//        }
+        LoginUser loginUser = user.getLoginUsers();
+        loginUser.setPassword(crypt.encode(loginUser.getPassword()));
+        this.entityManager.persist(user);
+
         return true;
     }
 
@@ -98,6 +93,19 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
     }
 
     @Override
+    public User findUserByUsername(String username) {
+        User user = null;
+        try {
+            TypedQuery<User> typedQuery = this.entityManager.createQuery(UserQuery.findByLoginUserUsername, User.class);
+            typedQuery.setParameter("username", username);
+            user = typedQuery.getSingleResult();
+        }catch (NoResultException e){
+            System.out.println("Error: " + e);
+        }
+        return user;
+    }
+
+    @Override
     public List<User> findUserDetails() {
         List<User> users = null;
         try{
@@ -123,11 +131,37 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
     }
 
     @Override
+    public User findUserDetailByUsername(String username) {
+        User user = null;
+        try {
+            TypedQuery<User> typedQuery = this.entityManager.createQuery(UserQuery.findUserDetailsByUsername, User.class);
+            typedQuery.setParameter("username", username);
+            user = typedQuery.getSingleResult();
+        }catch (NoResultException e){
+            System.out.println("Error: " + e);
+        }
+        return user;
+    }
+
+    @Override
     public List<User> findLikeUserName(String hint) {
         List<User> users = null;
         try {
             TypedQuery<User> typedQuery = this.entityManager.createQuery(UserQuery.findLikeUserName, User.class);
             typedQuery.setParameter("userName", "%" + hint + "%");
+            users = typedQuery.getResultList();
+        }catch (NoResultException e){
+            System.out.println("Error: " + e);
+        }
+        return users;
+    }
+
+    @Override
+    public List<User> findLikeUsername(String username) {
+        List<User> users = null;
+        try {
+            TypedQuery<User> typedQuery = this.entityManager.createQuery(UserQuery.findLikeUsername, User.class);
+            typedQuery.setParameter("username", "%" + username + "%");
             users = typedQuery.getResultList();
         }catch (NoResultException e){
             System.out.println("Error: " + e);
@@ -154,6 +188,18 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
         List<User> users = null;
         try {
             TypedQuery<User> typedQuery = this.entityManager.createQuery(UserQuery.findOrderByUser, User.class);
+            users = typedQuery.getResultList();
+        }catch (NoResultException e) {
+            System.out.println("Error: " + e);
+        }
+        return users;
+    }
+
+    @Override
+    public List<User> findOrderByUsername() {
+        List<User> users = null;
+        try {
+            TypedQuery<User> typedQuery = this.entityManager.createQuery(UserQuery.findOrderByUsername, User.class);
             users = typedQuery.getResultList();
         }catch (NoResultException e) {
             System.out.println("Error: " + e);

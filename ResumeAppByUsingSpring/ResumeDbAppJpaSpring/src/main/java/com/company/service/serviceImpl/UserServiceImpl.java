@@ -15,7 +15,7 @@ import java.util.List;
 @Qualifier("userService")
 public class UserServiceImpl implements UserServiceInter {
 
-    @Autowired
+    @Autowired(required = false)
     @Qualifier("userRepositoryCustomImpl")
     private UserRepositoryCustom userRepositoryInter;
 

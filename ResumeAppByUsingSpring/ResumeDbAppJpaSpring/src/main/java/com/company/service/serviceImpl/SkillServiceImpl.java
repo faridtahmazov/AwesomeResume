@@ -17,7 +17,7 @@ import java.util.List;
 @Service
 @Transactional
 public class SkillServiceImpl implements SkillServiceInter {
-    @Autowired
+    @Autowired(required = false)
     @Qualifier("skillRepositoryImpl")
     private SkillRepositoryInter skillRepositoryInter = new SkillRepositoryImpl();
 
