@@ -55,7 +55,6 @@
                         <c:if test="${users!=null}">
                             <tbody>
                                 <c:forEach var="user" items="${users}">
-                                    <c:out value="User size: ${users.size()}"></c:out>
                                 <tr>
                                     <form action="users/details" method="post">
 

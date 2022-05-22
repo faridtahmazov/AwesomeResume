@@ -6,6 +6,8 @@ import com.company.resumewebapp.service.DummyService;
 import com.company.service.serviceInter.UserServiceInter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,7 +36,28 @@ public class UserController {
         return mv;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/login")
+    @RequestMapping(method = RequestMethod.GET, value = "/user")
+    public ModelAndView userPage(){
+
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal(); //get the session username
+        String username;
+        User user = null;
+        if (principal instanceof UserDetails) {
+            username = ((UserDetails)principal).getUsername();
+        } else {
+            username = principal.toString();
+        }
+
+        if (username!=null){
+            user = userService.findUserByUsername(username);
+        }
+
+        ModelAndView mv = new ModelAndView("user");
+        mv.addObject("user", user);
+        return mv;
+    }
+
+    @RequestMapping(method = {RequestMethod.POST, RequestMethod.GET}, value = "/login")
     public String login(){
         return "login";
     }

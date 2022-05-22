@@ -37,4 +37,12 @@ public interface UserRepositoryCustom {
     List<User> findOrderByUser();
 
     List<User> findOrderByUsername();
+
+    List<User> findUsersByGroup();
+
+    List<Object[]> findUsersAndGroups();
+
+    List<Object[]> findRoleAndUsers();
+
+    List<Object[]> findRolesByUser();
 }

@@ -23,24 +23,21 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
     public Boolean saveUser(User user) {
         LoginUser loginUser = user.getLoginUsers();
         loginUser.setPassword(crypt.encode(loginUser.getPassword()));
-        this.entityManager.persist(user);
-
+        try {
+            this.entityManager.persist(user);
+        }catch (RuntimeException e){
+            System.out.println("Error: " + e);
+            return false;
+        }
         return true;
     }
 
     @Override
     public Boolean updateUser(User user) {
         try {
-//            this.transaction.begin();
             this.entityManager.merge(user);
-//            this.transaction.commit();
         }catch (RuntimeException e){
             System.out.println("Error: " + e);
-            try {
-//                this.transaction.rollback();
-            }catch (RollbackException e2){
-                System.out.println("Error: " + e2);
-            }
             return false;
         }
         return true;
@@ -57,11 +54,6 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
             }
         }catch (RuntimeException e){
             System.out.println("Error: " + e);
-            try{
-//                this.transaction.rollback();
-            }catch (RollbackException e2){
-                System.out.println("Error: " + e2);
-            }
             return false;
         }
         return true;
@@ -218,5 +210,25 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
             System.out.println("Error: " + e);
         }
         return users;
+    }
+
+    @Override
+    public List<User> findUsersByGroup() {
+        return null;
+    }
+
+    @Override
+    public List<Object[]> findUsersAndGroups() {
+        return null;
+    }
+
+    @Override
+    public List<Object[]> findRoleAndUsers() {
+        return null;
+    }
+
+    @Override
+    public List<Object[]> findRolesByUser() {
+        return null;
     }
 }

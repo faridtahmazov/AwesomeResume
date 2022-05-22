@@ -15,6 +15,8 @@ public interface UserServiceInter {
 
     List<User> findUsers();
 
+    User findUserByUsername(final String username);
+
     User findUserById(final Integer userId);
 
     List<User> findUserDetails();

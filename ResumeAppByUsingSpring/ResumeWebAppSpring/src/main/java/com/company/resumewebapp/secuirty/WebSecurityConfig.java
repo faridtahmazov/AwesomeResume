@@ -35,9 +35,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests().antMatchers("/login**").permitAll()
                 .and()
-                .authorizeRequests().antMatchers("/users").hasAnyAuthority("USER", "ADMIN") //bu url'ye yalniz user ve admin daxil ola biler.
+                .authorizeRequests().antMatchers("/users").hasAnyAuthority("ADMIN") //bu url'ye yalniz user ve admin daxil ola biler.
                 .and()
-                .authorizeRequests().antMatchers("/foo").hasAnyAuthority("ADMIN") //bu url'ye yalniz admin daxil ola biler.
+                .authorizeRequests().antMatchers("/user").hasAnyAuthority("USER", "ADMIN") //bu url'ye yalniz admin daxil ola biler.
                 .and()
                 .authorizeRequests().anyRequest().hasAnyAuthority("ADMIN")
                 .and()
@@ -48,7 +48,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                     .loginPage("/login")
-                    .defaultSuccessUrl("/users")
+                    .defaultSuccessUrl("/user", true)
                     .permitAll();
 //                .and()
 //                .csrf().disable();

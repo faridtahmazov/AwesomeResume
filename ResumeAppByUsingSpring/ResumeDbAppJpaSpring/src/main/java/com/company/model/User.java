@@ -62,6 +62,11 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "user")
     private List<EmployedHistory> employedHistories;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinTable(name = "group_user", joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "group_id"))
+    private Authority authority;
+
     public User(String name, String surname, String email, String phone, List<Skill> skills, List<EmployedHistory> employedHistories) {
         this.name = name;
         this.surname = surname;
@@ -84,6 +89,13 @@ public class User implements Serializable {
     }
 
 
+    public Authority getAuthority() {
+        return authority;
+    }
+
+    public void setAuthority(Authority authority) {
+        this.authority = authority;
+    }
 
     public List<Country> getCountry() {
         return countries;

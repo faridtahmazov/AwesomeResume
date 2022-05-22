@@ -35,4 +35,15 @@ public class UserQuery {
 
     public static final String findOrderByUsername = "SELECT u FROM User u ORDER BY u.username DESC"; //qiymete gore kicikden boyuye
 
+    public static String findUsersByGroup = "SELECT g, u FROM User u " +
+            "LEFT JOIN u.group g WHERE g.groupId = :groupId";
+
+    public static String findUsersAndGroups = "SELECT g, u FROM User u " +
+            "LEFT JOIN u.group g";
+
+    public static String findRoleAndUsers = "SELECT r, u FROM User u " +
+            "LEFT JOIN u.group.roles r";
+
+    public static String findRolesByUser = "SELECT r, u FROM User u " +
+            "LEFT JOIN u.group.roles r WHERE u.userId = :userId";
 }

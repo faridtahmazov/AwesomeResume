@@ -40,6 +40,11 @@ public class UserServiceImpl implements UserServiceInter {
     }
 
     @Override
+    public User findUserByUsername(String username) {
+        return this.userRepositoryInter.findUserByUsername(username);
+    }
+
+    @Override
     public User findUserById(Integer userId) {
         return this.userRepositoryInter.findUserById(userId);
     }

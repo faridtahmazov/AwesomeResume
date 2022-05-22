@@ -30,7 +30,8 @@ public class CustomUserDetailServiceImpl implements UserDetailsService {
 
             userBuilder.password(user.getLoginUsers().getPassword());
 
-            String[] authoritiesArr = new String[]{"USER", "ROLE_USER"}; // daxil olunan userin sadece user huququ var.
+            String[] authoritiesArr =
+                    new String[]{user.getAuthority().getAuthName(), "ROLE_" + user.getAuthority().getAuthName()}; // daxil olunan userin sadece user huququ var.
             userBuilder.authorities(authoritiesArr);
 
             return userBuilder.build();

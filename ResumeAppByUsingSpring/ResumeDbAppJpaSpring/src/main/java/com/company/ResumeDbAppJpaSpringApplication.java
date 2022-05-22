@@ -1,9 +1,9 @@
 package com.company;
 
 import com.company.model.*;
-import com.company.service.serviceInter.EmployedHistoryServiceInter;
-import com.company.service.serviceInter.SkillServiceInter;
-import com.company.service.serviceInter.UserServiceInter;
+import com.company.model.util.AuthUtil;
+import com.company.model.util.RoleUtil;
+import com.company.service.serviceInter.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
@@ -33,6 +33,14 @@ public class ResumeDbAppJpaSpringApplication {
 	@Qualifier("skillServiceImpl")
 	private SkillServiceInter skillService;
 
+	@Autowired
+	@Qualifier("authService")
+	private AuthServiceInter authService;
+
+	@Autowired
+	@Qualifier("roleService")
+	private RoleServiceInter roleService;
+
     public static void main(String[] args) {
         SpringApplication.run(ResumeDbAppJpaSpringApplication.class, args);
     }
@@ -42,8 +50,7 @@ public class ResumeDbAppJpaSpringApplication {
 		CommandLineRunner clr = new CommandLineRunner() {
 
 			@Override
-			public void run(String... args) throws Exception {
-			}
+			public void run(String... args) throws Exception {}
 		};
 
 		return clr;
@@ -69,6 +76,23 @@ public class ResumeDbAppJpaSpringApplication {
 
 		EmployedHistory employedHistory2 = new EmployedHistory("Php Software Developer", new Date(),
 				new Date(), "Hah!");
+
+		Authority adminGroup = new Authority(AuthUtil.ADMIN.name());
+		Authority userGroup = new Authority(AuthUtil.USER.name());
+
+		Role adminRole = new Role(RoleUtil.SEE_USERS.name());
+		Role userRole = new Role(RoleUtil.SEE_USER.name());
+
+		List<Role> adminRoles = new ArrayList<>();
+		adminRoles.add(adminRole);
+		adminGroup.setRoles(adminRoles);
+
+		List<Role> userRoles = new ArrayList<>();
+		userRoles.add(userRole);
+		userGroup.setRoles(userRoles);
+
+		user.setAuthority(adminGroup);
+		user2.setAuthority(userGroup);
 
 		List<Country> countries = new ArrayList<>();
 		countries.add(country);
@@ -97,8 +121,6 @@ public class ResumeDbAppJpaSpringApplication {
 		skillService.saveSkill(skill2);
 		userService.saveUser(user2);
 		employedHistoryService.saveEmpHistory(employedHistory2);
-
-
 	}
 
 	public void getAllData(){
