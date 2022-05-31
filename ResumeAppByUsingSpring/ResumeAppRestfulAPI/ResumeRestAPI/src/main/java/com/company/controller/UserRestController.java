@@ -1,10 +1,8 @@
 package com.company.controller;
 
 import com.company.dto.ResponseDTO;
-import com.company.dto.SkillDTO;
 import com.company.dto.UserDTO;
 import com.company.model.LoginUser;
-import com.company.model.Skill;
 import com.company.model.User;
 import com.company.service.serviceInter.UserServiceInter;
 import org.springframework.beans.factory.annotation.Autowired;
