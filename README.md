@@ -13,4 +13,5 @@ Tools and technologies used:
 * Jpa Hibernate
 * Jsp-Servlet
 * Jstl
+* Swing
 
